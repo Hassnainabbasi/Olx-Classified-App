@@ -1,7 +1,45 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { setDoc, doc } from 'firebase/firestore'; 
+import { auth , db } from '../../firebase';
 
 export default function Signup() {
+  const [email , setEmail] = useState('')
+  const [password , setPassword] = useState('')
+  const [username , setUsername] = useState('')
+  const [error , setError] = useState(null)
+  const navigate = useNavigate()
+  const handleSubmit = async(e) =>{
+    e.preventDefault()
+    try {
+     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+     const user = userCredential.user
+
+    await setDoc(doc(db, 'users', user.uid),{
+    username :username,
+    email : user.email,
+    uid : user.uid,
+    createAt : new Date(),
+    })
+
+     setEmail('');
+      setPassword('')
+      setUsername('')
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: "Signup Successfully",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      navigate('/login')
+    } catch (error) {
+      setError(error.message);
+    }
+  }
+
   return (
       <div className="relative w-full h-screen">
           <div className="absolute inset-0">
@@ -31,6 +69,7 @@ export default function Signup() {
                   <input
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     type='text'
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
                 <div className="mb-5">
@@ -40,8 +79,11 @@ export default function Signup() {
                   </label>
                   <input
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                    type="email"
-                  />
+                    type="email" 
+                    placeholder="Email" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)}        
+                   />
                 </div>
                 <div className="mb-8">
                   <label className="block text-gray-800 font-semibold mb-2">
@@ -51,20 +93,25 @@ export default function Signup() {
                   <input
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     type="password"
+                    placeholder="Password" 
+                    value={password} 
+                    onChange={(e) => setPassword(e.target.value)}           
                   />
                 </div>
                 <div className="flex justify-center">
                   <button
                     className="bg-blue-500 text-white rounded-full px-8 py-3 hover:bg-green-600 transition duration-300"
                     type="submit"
+                    onClick={handleSubmit}
                   >
                     Sign Up
                   </button>
                 </div>
               </form>
+             
               <div className="text-center mt-6">
                 <Link to={'/login'} className="text-blue-500 hover:underline" href="#">
-                  Already Have an Account? Login
+                  Already have an Account? Login
                 </Link>
               </div>
             </div>

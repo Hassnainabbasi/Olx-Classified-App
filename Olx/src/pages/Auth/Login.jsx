@@ -1,7 +1,31 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { auth } from '../../firebase';
 export default function Login() {
+    const [email , setEmail] = useState('')
+    const [password , setPassword] = useState('')
+    const navigate = useNavigate()
+    const handleSubmit = async(e) =>{
+    e.preventDefault()
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      setEmail('');
+      setPassword('')
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: "Login Successfully",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      navigate('/')
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   return (
     <div className="relative w-full h-screen">
       <div className="absolute inset-0">
@@ -31,6 +55,8 @@ export default function Login() {
               <input
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 type="email"
+                value={email}
+                onChange={(e)=>setEmail(e.target.value)}
               />
             </div>
             <div className="mb-8">
@@ -41,12 +67,15 @@ export default function Login() {
               <input
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 type="password"
+                value={password}
+                onChange={(e)=>setPassword(e.target.value)}
               />
             </div>
             <div className="flex justify-center">
               <button
                 className="bg-blue-500 text-white rounded-full px-8 py-3 hover:bg-green-600 transition duration-300"
                 type="submit"
+                onClick={handleSubmit}
               >
                 Sign In
               </button>

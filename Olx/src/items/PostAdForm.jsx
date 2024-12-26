@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Button, MenuItem, Select, InputLabel, FormControl, TextField, InputAdornment } from '@mui/material';
-
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '../firebase';
+import Swal from 'sweetalert2';
 export default function PostAdForm() {
   const [adTitle, setAdTitle] = useState('');
   const [category, setCategory] = useState('');
@@ -10,7 +12,7 @@ export default function PostAdForm() {
   const [adDescription, setAdDescription] = useState('');
   const [photo, setPhoto] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log({
       adTitle,
@@ -21,6 +23,42 @@ export default function PostAdForm() {
       adDescription,
       photo
     });
+    const adData = {
+      adTitle,
+      category,
+      adPrice,
+      adModel,
+      adYear,
+      adDescription,
+      photo: photo ? photo.name : null,
+      createdAt: new Date(),
+    };
+    const documentId = `${adTitle}-${adModel}-${adYear}`
+
+    try{
+      await setDoc(doc(db , "userAds", documentId),adData)
+      .then(()=>{
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        });
+        Toast.fire({
+          icon: "success",
+          title: "Create Post Successfully"
+        });
+      })
+    }
+    catch(e){
+      console.log(e)
+    }
+
   };
 
   return (
