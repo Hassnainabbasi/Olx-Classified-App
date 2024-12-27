@@ -1,0 +1,71 @@
+ // const handleSubmit = async(e) => {
+  //   e.preventDefault();
+  //   console.log({
+  //     adTitle,
+  //     category,
+  //     adPrice,
+  //     adModel,
+  //     adYear,
+  //     adDescription,
+  //     photo
+  //   });
+  //   if(!photo) return
+    
+  //   const data = new FormData()
+  //   data.append("photo",photo)
+    
+  //   data.append('upload_preset','olx-classified-post')
+  //   data.append("cloud_name" , 'djmfadch8')
+    
+  //   const res = await fetch('https://api.cloudinary.com/v1_1/djmfadch8/image/upload', {
+  //     method: "POST",
+  //     body: data
+  //   });
+    
+  //   if (!res.ok) {
+  //     const error = await res.json();
+  //     console.error('Error uploading image:', error);
+  //     return; 
+  //   }
+    
+  //   const uploadImgurl = await res.json();
+  //   console.log(uploadImgurl);
+
+  //   const adData = {
+  //     adTitle,
+  //     category,
+  //     adPrice,
+  //     adModel,
+  //     adYear,
+  //     adDescription,
+  //     photo: uploadImgurl.secure_url,
+  //     createdAt: new Date(),
+  //   };
+  //   const documentId = `${adTitle}-${adModel}-${adYear}`
+
+  //   try{
+  //     await setDoc(doc(db , "userAds", documentId),adData)
+  //     .then(()=>{
+  //       const Toast = Swal.mixin({
+  //         toast: true,
+  //         position: "top-end",
+  //         showConfirmButton: false,
+  //         timer: 3000,
+  //         timerProgressBar: true,
+  //         didOpen: (toast) => {
+  //           toast.onmouseenter = Swal.stopTimer;
+  //           toast.onmouseleave = Swal.resumeTimer;
+  //         }
+  //       });
+  //       Toast.fire({
+  //         icon: "success",
+  //         title: "Create Post Successfully"
+  //       });
+  //     })
+  //   }
+  //   catch(e){
+  //     console.log(e)
+  //   }
+
+  // };
+ 

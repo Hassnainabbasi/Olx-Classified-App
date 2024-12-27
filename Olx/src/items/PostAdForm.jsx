@@ -23,6 +23,28 @@ export default function PostAdForm() {
       adDescription,
       photo
     });
+    if(!photo) return
+    
+    const data = new FormData()
+    data.append("file",photo)
+    
+    data.append('upload_preset','olx-classified-post')
+    data.append("cloud_name" , 'djmfadch8')
+    
+    const res = await fetch('https://api.cloudinary.com/v1_1/djmfadch8/image/upload', {
+      method: "POST",
+      body: data
+    });
+    
+    if (!res.ok) {
+      const error = await res.json();
+      console.error('Error uploading image:', error);
+      return; 
+    }
+    
+    const uploadImgurl = await res.json();
+    console.log(uploadImgurl);
+
     const adData = {
       adTitle,
       category,
@@ -30,7 +52,7 @@ export default function PostAdForm() {
       adModel,
       adYear,
       adDescription,
-      photo: photo ? photo.name : null,
+      photo: uploadImgurl.url,
       createdAt: new Date(),
     };
     const documentId = `${adTitle}-${adModel}-${adYear}`
@@ -89,10 +111,15 @@ export default function PostAdForm() {
                 label="Category *"
               >
                 <MenuItem value="">-- Select Category --</MenuItem>
-                <MenuItem value="electronics">Electronics</MenuItem>
-                <MenuItem value="fashion">Fashion</MenuItem>
-                <MenuItem value="real-estate">Real Estate</MenuItem>
-                <MenuItem value="vehicles">Vehicles</MenuItem>
+                <MenuItem value="Electronics">Electronics</MenuItem>
+                <MenuItem value="Fashion">Fashion</MenuItem>
+                <MenuItem value="Real-estate">Real Estate</MenuItem>
+                <MenuItem value="Furniture">Furniture</MenuItem>
+                <MenuItem value="Mobile">Mobile</MenuItem>
+                <MenuItem value="Animals">Animals</MenuItem>
+                <MenuItem value="Home Appilances">Home Appilances</MenuItem>
+                <MenuItem value="Vehicles">Vehicles</MenuItem>
+
               </Select>
             </FormControl>
           </div>

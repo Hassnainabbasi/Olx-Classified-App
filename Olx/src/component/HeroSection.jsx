@@ -45,19 +45,24 @@ const HeroSection = () => {
                     },
                   }}
                 >
-                  <MenuItem value="category" disabled className="text-white">Category</MenuItem>
-                  <MenuItem value="electronics" className={category === 'electronics' ? 'text-white' : 'text-black'}>
+                  <MenuItem value="Category" disabled >Category</MenuItem>
+                  <MenuItem value="Electronics" className={category === 'Electronics' ? 'text-white' : 'text-black'}>
                     Electronics
                   </MenuItem>
-                  <MenuItem value="fashion" className={category === 'fashion' ? 'text-white' : 'text-black'}>
+                  <MenuItem value="Fashion" className={category === 'Fashion' ? 'text-white' : 'text-black'}>
                     Fashion
                   </MenuItem>
-                  <MenuItem value="real-estate" className={category === 'real-estate' ? 'text-white' : 'text-black'}>
+                  <MenuItem value="Real-estate" className={category === 'Real-estate' ? 'text-white' : 'text-black'}>
                     Real Estate
                   </MenuItem>
-                  <MenuItem value="vehicles" className={category === 'vehicles' ? 'text-white' : 'text-black'}>
+                  <MenuItem value="Vehicles" className={category === 'Vehicles' ? 'text-white' : 'text-black'}>
                     Vehicles
                   </MenuItem>
+                 <MenuItem value="Furniture" className={category === 'Furniture' ? 'text-white' : 'text-black'}>Furniture</MenuItem>
+                 <MenuItem value="Mobile" className={category === 'Mobile' ? 'text-white' : 'text-black'}>Mobile</MenuItem>
+                 <MenuItem value="Animals" className={category === 'Animals' ? 'text-white' : 'text-black'}>Animals</MenuItem>
+                 <MenuItem value="Home Appilances"className={category === 'Home Appilances' ? 'text-white' : 'text-black'}>Home Appilances</MenuItem>
+                                
                 </Select>
               </FormControl>
             </div>

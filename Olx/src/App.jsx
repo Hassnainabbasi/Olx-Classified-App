@@ -6,6 +6,10 @@ import Footer from "./component/Footer";
 import Signup from "./pages/Auth/Signup";
 import PostAd from "./pages/PostAdd";
 import Auth from "./pages/Auth/Auth";
+import GetPostAd from "./items/GetPostAd";
+import MyAccount from "./pages/MyAccount";
+import Categories from "./categories/Categories";
+import Routing from "./categories/[id]/routing";
 
 function App() {
   const location = useLocation();
@@ -17,10 +21,13 @@ function App() {
         <Route index path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/post-add" element={<PostAd />} />
+        <Route path="/getpost-ad" element={<GetPostAd />}/>
+        <Route path="/categories" element={<Categories />} />
+        <Route path="/categories/:id" element={<Routing />} />
       </Routes>
-      <Footer />
       </>
   )
 }
