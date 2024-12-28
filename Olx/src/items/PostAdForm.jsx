@@ -219,6 +219,7 @@ import React, { useState } from 'react';
 import { Button, MenuItem, Select, InputLabel, FormControl, TextField, InputAdornment, CircularProgress } from '@mui/material';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
+import { getAuth } from 'firebase/auth';
 import Swal from 'sweetalert2';
 
 export default function PostAdForm() {
@@ -229,11 +230,11 @@ export default function PostAdForm() {
   const [adYear, setAdYear] = useState('');
   const [adDescription, setAdDescription] = useState('');
   const [photo, setPhoto] = useState(null);
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Start loader
+    setLoading(true); 
     console.log({
       adTitle,
       category,
@@ -243,6 +244,17 @@ export default function PostAdForm() {
       adDescription,
       photo
     });
+
+  const user = getAuth().currentUser
+  if(!user){
+    Swal.fire({
+      icon: 'error',
+      title: 'Not Logged In',
+      text: 'Please log in to post an ad.',
+    });
+    setLoading(false);
+    return
+  }
 
     if (!photo) return;
 
@@ -275,6 +287,7 @@ export default function PostAdForm() {
       adDescription,
       photo: uploadImgurl.url,
       createdAt: new Date(),
+      uid : user.uid
     };
 
     const documentId = `${adTitle}-${adModel}-${adYear}`;

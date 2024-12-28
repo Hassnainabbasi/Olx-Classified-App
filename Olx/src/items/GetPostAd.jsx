@@ -59,45 +59,42 @@
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
+import { query, where } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
 export default function GetPostAd() {
   const [posts, setPosts] = useState([]);
 
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchPosts = async () => {
+      setLoading(true);
+      const user = getAuth().currentUser;
+      if (!user) {
+        setLoading(false);
+        return;    }
       const postsCollection = collection(db, 'userAds');
-      const postSnapshot = await getDocs(postsCollection);
+      const q = query(postsCollection, where("uid", "==", user.uid)); 
+      const postSnapshot = await getDocs(q);
       const postList = postSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setPosts(postList);
+      setLoading(false);
     };
 
     fetchPosts();
   }, []);
 
+  if(loading){
+    return <div className="flex justify-center items-center w-full h-full">
+    <img
+      className="w-20"
+      src="https://i.gifer.com/ZZ5H.gif"
+      alt="Loading animation"
+    />
+  </div>
+}
+
   return (
-    // <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
-    //   <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    //     {posts.map(ads => (
-    //       <div key={ads.id} className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105">
-    //         <img
-    //           src={`${ads.photo}`}
-    //           alt="Post Image"
-    //           className="w-full h-48 object-cover"
-    //         />
-    //         <div className="p-4">
-    //           <h2 className="text-xl font-semibold text-gray-800 mb-2">{ads.adTitle}</h2>
-    //           <div className="bg-gray-100 p-2 rounded-lg mb-4">
-    //             <p className="text-gray-800 text-lg">{ads.adModel}</p>
-    //           </div>
-    //           <div className="flex justify-between items-center text-sm text-gray-600">
-    //             <span className="font-semibold">{ads.category}</span>
-    //             <span className="text-lg font-bold text-gray-800">{ads.adPrice}</span>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     ))}
-    //   </div>
-    // </div>
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
     <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {posts.map(ads => (
