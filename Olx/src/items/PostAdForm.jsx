@@ -311,7 +311,7 @@ export default function PostAdForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-center py-10">
+    <div style={{ backgroundColor: "white" }} className="min-h-screen bg-gray-100 flex justify-center items-center py-10">
       <div className="bg-white shadow-lg rounded-lg w-full max-w-2xl p-8">
         <h2 className="text-3xl font-bold text-center mb-6">Post Your Ad</h2>
 

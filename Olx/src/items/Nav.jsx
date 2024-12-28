@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Nav() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
-    <nav className="bg-white border-gray-200 dark:bg-gray-900 px-6 py-3">
+    <nav className="bg-white dark:bg-gray-900 px-6 py-3 shadow-md relative">
       <div className="max-w-screen-xl flex items-center justify-between mx-auto">
         <img
           src="https://web-summit-avenger.imgix.net/production/logos/original/611593121fb2c6e11e1c9d807a9f1bdc38cf199a.jpg?ixlib=rb-3.4.0&auto=format&fit=fill&fill=solid&fill-color=white&w=600&h=600"
@@ -11,39 +17,77 @@ export default function Nav() {
           alt="Company Logo"
         />
 
-        <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-          <ul className="font-medium flex items-center p-4 md:p-0 mt-0 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        <div className="hidden md:flex space-x-6">
+          <Link
+            to="/myaccount"
+            className="py-2 px-4 text-lg text-black border border-gray-400 dark:text-gray-200 hover:bg-gray-100 font-bold dark:hover:bg-gray-700 rounded-lg"
+          >
+            My Account
+          </Link>
+          <Link
+            to="/post-add"
+            className="py-2 px-4 text-lg border border-gray-400 text-gray-700 dark:text-gray-200 hover:bg-gray-100 font-bold dark:hover:bg-gray-700 rounded-lg"
+          >
+            Post Ads
+          </Link>
+          <Link
+            to="/login"
+            className="py-2 px-4 text-lg text-gray-700 border border-gray-400 dark:text-gray-200 hover:bg-gray-100 font-bold dark:hover:bg-gray-700 rounded-lg"
+          >
+            Login
+          </Link>
+        </div>
+
+        <button
+          onClick={toggleMenu}
+          type="button"
+          className="inline-flex items-center justify-center p-2 w-10 h-10 text-gray-500 rounded-lg hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600 md:hidden"
+          aria-controls="navbar-default"
+          aria-expanded={isMenuOpen}
+        >
+          <span className="sr-only">Open main menu</span>
+          <svg
+            className={`w-5 h-5 transition-transform duration-300 ${isMenuOpen ? 'rotate-90' : ''}`}
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+
+      {isMenuOpen && (
+        <div className="absolute top-full left-[60%] transform -translate-x-[20%] w-48 bg-white dark:bg-gray-800 shadow-lg rounded-md mt-2 z-10 md:hidden">
+          <ul className="flex flex-col text-center space-y-2 py-2 ">
             <li>
-              <Link to={'/myaccount'}
-                className="py-2 px-6 bg-transparent text-black border-2 border-gray-700 rounded-full transition-all duration-300 hover:bg-gray-200 focus:outline-none"
+              <Link
+                to="/myaccount"
+                className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md"
               >
                 My Account
               </Link>
             </li>
             <li>
-              <Link to={'/post-add'}
-                className="py-2 px-6 bg-transparent text-black border-2 border-gray-700 rounded-full transition-all duration-300 hover:bg-gray-200 focus:outline-none"
+              <Link
+                to="/post-add"
+                className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md"
               >
                 Post Ads
               </Link>
             </li>
-            {/* <li>
-              <Link
-                className="py-2 px-6 bg-transparent text-black border-2 border-gray-700 rounded-full transition-all duration-300 hover:bg-gray-200 focus:outline-none"
-              >
-                Chats
-              </Link>
-            </li> */}
             <li>
-              <Link to={'/login'}
-                className="py-2 px-6 bg-transparent text-black border-2 border-gray-700 rounded-full transition-all duration-300 hover:bg-gray-200 focus:outline-none"
+              <Link
+                to="/login"
+                className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md"
               >
                 Login
               </Link>
             </li>
           </ul>
         </div>
-      </div>
+      )}
     </nav>
   );
 }
