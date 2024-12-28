@@ -1,14 +1,8 @@
-// export default function Routing(){
-//     return(
-//         <>
-//         </>
-//     )
-// }
+
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
-import Sheets from '../../items/Sheet';
 
 export default function Routing() {
   const { id } = useParams();
@@ -61,7 +55,7 @@ export default function Routing() {
               <p className="text-gray-700">Price: ₹{ad.adPrice}</p>
               <p className="text-gray-500">Model: {ad.adModel}</p>
               <p className="text-gray-500">Year: {ad.adYear}</p>
-              <Sheets />
+              {/* <Sheets /> */}
             </div>
           ))
         ) : (

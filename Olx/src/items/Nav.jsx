@@ -27,11 +27,18 @@ export default function Nav() {
                 Post Ads
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 className="py-2 px-6 bg-transparent text-black border-2 border-gray-700 rounded-full transition-all duration-300 hover:bg-gray-200 focus:outline-none"
               >
                 Chats
+              </Link>
+            </li> */}
+            <li>
+              <Link to={'/login'}
+                className="py-2 px-6 bg-transparent text-black border-2 border-gray-700 rounded-full transition-all duration-300 hover:bg-gray-200 focus:outline-none"
+              >
+                Login
               </Link>
             </li>
           </ul>

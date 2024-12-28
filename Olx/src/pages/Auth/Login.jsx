@@ -1,30 +1,44 @@
+
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { auth } from '../../firebase';
+
 export default function Login() {
-    const [email , setEmail] = useState('')
-    const [password , setPassword] = useState('')
-    const navigate = useNavigate()
-    const handleSubmit = async(e) =>{
-    e.preventDefault()
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true); 
     try {
       await signInWithEmailAndPassword(auth, email, password);
       setEmail('');
-      setPassword('')
+      setPassword('');
       Swal.fire({
-        position: "top-center",
-        icon: "success",
-        title: "Login Successfully",
+        position: 'top-center',
+        icon: 'success',
+        title: 'Login Successfully',
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       });
-      navigate('/')
+      navigate('/');
     } catch (error) {
       console.log(error.message);
+      Swal.fire({
+        position: 'top-center',
+        icon: 'error',
+        title: 'Login Failed',
+        text: error.message,
+        showConfirmButton: true,
+      });
+    } finally {
+      setLoading(false); // Reset loading state after login attempt
     }
-  }
+  };
 
   return (
     <div className="relative w-full h-screen">
@@ -56,7 +70,7 @@ export default function Login() {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 type="email"
                 value={email}
-                onChange={(e)=>setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="mb-8">
@@ -68,16 +82,21 @@ export default function Login() {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 type="password"
                 value={password}
-                onChange={(e)=>setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <div className="flex justify-center">
               <button
-                className="bg-blue-500 text-white rounded-full px-8 py-3 hover:bg-green-600 transition duration-300"
+                className={`bg-blue-500 text-white rounded-full px-8 py-3 hover:bg-green-600 transition duration-300 ${loading ? 'cursor-not-allowed' : ''}`}
                 type="submit"
                 onClick={handleSubmit}
+                disabled={loading}
               >
-                Sign In
+                {loading ? (
+                  <div className="spinner-border text-white animate-spin w-6 h-6 border-4 border-t-transparent rounded-full"></div> // Add a spinner when loading
+                ) : (
+                  'Sign In'
+                )}
               </button>
             </div>
           </form>
