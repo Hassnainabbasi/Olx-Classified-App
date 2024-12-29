@@ -629,12 +629,12 @@ export default function Nav() {
             </li>
             {isAuthenticated ? (
               <button
-                onClick={handleLogout}
-                className="block text-center py-2 text-lg text-gray-700 border border-b-8 hover:bg-gray-100 font-bold rounded-lg"
-                onClick={closeMenu}
-              >
-                Logout
-              </button>
+              onClick={handleLogout}
+              className="block text-center py-2 text-lg text-gray-700 border border-b-8 hover:bg-gray-100 font-bold rounded-lg"
+            >
+              Logout
+            </button>
+          
             ) : (
               <Link
                 to="/login"
