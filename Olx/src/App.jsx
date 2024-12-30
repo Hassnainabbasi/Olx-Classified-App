@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom"
 import Home from "./pages/Home"
-import Header from "./Component/Header"
+import Header from "./component/Header";
 import Login from "./pages/Auth/Login"
 import Footer from "./component/Footer";
 import Signup from "./pages/Auth/Signup";
@@ -10,7 +10,8 @@ import GetPostAd from "./items/GetPostAd";
 import MyAccount from "./pages/MyAccount";
 import Categories from "./categories/Categories";
 import Routing from "./categories/[id]/routing";
-
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 function App() {
   const location = useLocation();
 

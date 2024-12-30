@@ -215,6 +215,7 @@
    
 // );
 // }
+import { useDropzone } from 'react-dropzone';
 import React, { useState } from 'react';
 import { Button, MenuItem, Select, InputLabel, FormControl, TextField, InputAdornment, CircularProgress } from '@mui/material';
 import { doc, setDoc } from 'firebase/firestore';
@@ -229,8 +230,29 @@ export default function PostAdForm() {
   const [adModel, setAdModel] = useState('');
   const [adYear, setAdYear] = useState('');
   const [adDescription, setAdDescription] = useState('');
-  const [photo, setPhoto] = useState(null);
+  const [photo, setPhoto] = useState([]);
   const [loading, setLoading] = useState(false); 
+
+  const handleDrop = (acceptedFiles) => {
+    setPhoto((prev) => [...prev, ...acceptedFiles].slice(0, 10)); // Limit to 10 files
+  };
+  
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: handleDrop,
+    accept: 'image/*',
+    multiple: true,
+  });
+
+  if (photo.length > 10) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Maximum Images Required',
+      text: 'Please upload at least 10 images.',
+    });
+    setLoading(false);
+    return;
+  }
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -255,11 +277,11 @@ export default function PostAdForm() {
     setLoading(false);
     return
   }
-
-    if (!photo) return;
-
+ 
+  const uploadImages = []
+  for(const image of photo){
     const data = new FormData();
-    data.append("file", photo);
+    data.append("file", image );
     data.append('upload_preset', 'olx-classified-post');
     data.append("cloud_name", 'djmfadch8');
 
@@ -271,12 +293,17 @@ export default function PostAdForm() {
     if (!res.ok) {
       const error = await res.json();
       console.error('Error uploading image:', error);
-      setLoading(false); // Stop loader
+      setLoading(false); 
       return;
     }
 
     const uploadImgurl = await res.json();
-    console.log(uploadImgurl);
+    uploadImages.push(uploadImgurl.url)
+    console.log(uploadImgurl.url);
+
+  }
+    if (!photo) return;
+
 
     const adData = {
       adTitle,
@@ -285,7 +312,7 @@ export default function PostAdForm() {
       adModel,
       adYear,
       adDescription,
-      photo: uploadImgurl.url,
+      photo: uploadImages,
       createdAt: new Date(),
       uid : user.uid
     };
@@ -294,16 +321,15 @@ export default function PostAdForm() {
 
     try {
       await setDoc(doc(db, "userAds", documentId), adData);
-      setLoading(false); // Stop loader
+      setLoading(false); 
       setAdTitle('');
       setCategory('');
       setAdPrice('');
       setAdModel('');
       setAdYear('');
       setAdDescription('');
-      setPhoto(null);
+      setPhoto([]);
 
-      // Show success message
       Swal.fire({
         position: "top-end",
         icon: "success",
@@ -312,7 +338,7 @@ export default function PostAdForm() {
         timer: 3000,
       });
     } catch (e) {
-      setLoading(false); // Stop loader
+      setLoading(false); 
       console.log(e);
       Swal.fire({
         position: "top-end",
@@ -354,7 +380,7 @@ export default function PostAdForm() {
                 <MenuItem value="Fashion">Fashion</MenuItem>
                 <MenuItem value="Real-estate">Real Estate</MenuItem>
                 <MenuItem value="Furniture">Furniture</MenuItem>
-                <MenuItem value="Mobile">Mobile</MenuItem>
+                <MenuItem value="Mobiles">Mobile</MenuItem>
                 <MenuItem value="Animals">Animals</MenuItem>
                 <MenuItem value="Home Appilances">Home Appilances</MenuItem>
                 <MenuItem value="Vehicles">Vehicles</MenuItem>
@@ -402,7 +428,7 @@ export default function PostAdForm() {
             />
           </div>
 
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <div className="flex items-center gap-5">
               <Button
                 variant="contained"
@@ -420,8 +446,31 @@ export default function PostAdForm() {
               </Button>
               <span>{photo ? photo.name : '   No file chosen'}</span>
             </div>
-          </div>
-
+          </div> */}
+<div
+  {...getRootProps()}
+  className={`border-2 border-dashed rounded-lg p-6 text-center ${
+    isDragActive ? 'bg-gray-200' : 'bg-gray-100'
+  }`}
+>
+  <input {...getInputProps()} />
+  {isDragActive ? (
+    <p>Drop the files here...</p>
+  ) : (
+    <p>Drag and drop images here, or click to select (max 10 images).</p>
+  )}
+</div>
+<div className="mt-4 grid grid-cols-3 gap-4">
+  {photo.length > 0 &&
+    photo.map((file, index) => (
+      <img
+        key={index}
+        src={URL.createObjectURL(file)}
+        alt={`Selected ${index}`}
+        className="w-full h-32 object-cover rounded-lg"
+      />
+    ))}
+</div>
           <div className="mb-6">
             <TextField
               label="Ad Description *"
@@ -443,10 +492,10 @@ export default function PostAdForm() {
               color="primary"
               size="large"
               className="w-full py-3"
-              disabled={loading} // Disable button while loading
+              disabled={loading} 
             >
               {loading ? (
-                <CircularProgress size={24} color="inherit" /> // Show loader while loading
+                <CircularProgress size={24} color="inherit" /> 
               ) : (
                 'Submit'
               )}

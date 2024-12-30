@@ -5,7 +5,6 @@ import PostAdForm from '../items/PostAdForm'
 export default function PostAd() {
   return (
     <div>
-    <AddBanner />
     <PostAdForm />
     </div>
   )

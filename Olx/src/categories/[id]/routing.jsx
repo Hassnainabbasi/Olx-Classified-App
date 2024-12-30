@@ -1,8 +1,10 @@
-
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
+import Slider from 'react-slick'; // Make sure to import the Slider component
 
 export default function Routing() {
   const { id } = useParams();
@@ -46,11 +48,34 @@ export default function Routing() {
         {ads.length > 0 ? (
           ads.map(ad => (
             <div key={ad.id} className="bg-white p-6 rounded-lg shadow-md">
-              <img
-                src={ad.photo}
-                alt={ad.adTitle}
-                className="mb-4 w-full h-40 object-cover rounded-md"
-              />
+             {Array.isArray(ad.photo) && ad.photo.length > 1 ? (
+                <Slider
+                  dots={true}
+                  infinite={true}
+                  speed={500}
+                  slidesToShow={1}
+                  slidesToScroll={1}
+                >
+                  {ad.photo.map((image, index) => (
+                    <div key={index}>
+                      <img
+                        src={image}
+                        alt={`Ad Image ${index + 1}`}
+                        className="w-full h-40 object-cover rounded-md"
+                      />
+                    </div>
+                  ))}
+                </Slider>
+              ) : (
+                ad.photo && (
+                  <img
+                    src={ad.photo}
+                    alt={ad.adTitle}
+                    className="mb-4 w-full h-40 object-cover rounded-md"
+                  />
+                )
+              )}
+
               <h2 className="text-xl font-semibold">{ad.adTitle}</h2>
               <p className="text-gray-700">Price: ₹{ad.adPrice}</p>
               <p className="text-gray-500">Model: {ad.adModel}</p>
