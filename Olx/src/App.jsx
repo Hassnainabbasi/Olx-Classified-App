@@ -7,11 +7,12 @@ import Signup from "./pages/Auth/Signup";
 import PostAd from "./pages/PostAdd";
 import Auth from "./pages/Auth/Auth";
 import GetPostAd from "./items/GetPostAd";
-import MyAccount from "./pages/MyAccount";
+import MyAccount from "./pages/myaccounts/MyAccount";
 import Categories from "./categories/Categories";
 import Routing from "./categories/[id]/routing";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import EditPost from "./pages/myaccounts/edit/edit";
 function App() {
   const location = useLocation();
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/auth" element={<Auth />} />
+        <Route path="/edit/:id" element={<EditPost />} />
         <Route path="/post-add" element={<PostAd />} />
         <Route path="/getpost-ad" element={<GetPostAd />}/>
         <Route path="/categories" element={<Categories />} />

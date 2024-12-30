@@ -5,6 +5,7 @@ import { db } from '../firebase';
 import { query, where } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import Swal from 'sweetalert2';
+import { Link, useParams } from 'react-router-dom';
 
 export default function GetPostAd() {
   const [posts, setPosts] = useState([]);
@@ -104,12 +105,12 @@ export default function GetPostAd() {
                 <span className="text-lg font-bold text-gray-800">{ads.adPrice}</span>
               </div>
               <div className="flex justify-between mt-4">
-                <button
-                  onClick={() => handleEdit(ads.id)}
-                  className="text-blue-600 hover:text-blue-800"
-                >
-                  Edit
-                </button>
+              <Link
+    to={`/edit/${ads.id}`}  // This will redirect to the EditPost component
+    className="text-blue-600 hover:text-blue-800"
+  >
+    Edit
+  </Link>
                 <button
                   onClick={() => handleDelete(ads.id)}
                   className="text-red-600 hover:text-red-800"
