@@ -4,8 +4,8 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
 
 const EditPost = () => {
-  const { id } = useParams(); // Get the ID from the URL
-  const navigate = useNavigate(); // Use navigate for redirection
+  const { id } = useParams(); 
+  const navigate = useNavigate(); 
   const [post, setPost] = useState(null);
   const [adTitle, setAdTitle] = useState('');
   const [adPrice, setAdPrice] = useState('');
@@ -13,8 +13,7 @@ const EditPost = () => {
   const [adYear, setAdYear] = useState('');
   const [category, setCategory] = useState('');
 
-  // Fetch the existing post data to pre-fill the form
-  useEffect(() => {
+   useEffect(() => {
     const fetchPost = async () => {
       const postRef = doc(db, 'userAds', id);
       const docSnap = await getDoc(postRef);
@@ -45,11 +44,17 @@ const EditPost = () => {
       category
     });
 
-    navigate('/'); // Use navigate() to redirect to the homepage
+    navigate('/myaccount');
   };
 
   if (!post) {
-    return <div>Loading...</div>;
+    return <div className="flex justify-center items-center w-full h-full">
+    <img
+      className="w-20"
+      src="https://i.gifer.com/ZZ5H.gif"
+      alt="Loading animation"
+    />
+  </div>
   }
 
   return (

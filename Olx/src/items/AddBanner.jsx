@@ -220,6 +220,7 @@ import { MenuItem, Select, FormControl } from '@mui/material';
 export default function AddBanner() {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
+  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -241,7 +242,7 @@ export default function AddBanner() {
   return (
     <section
       id="banner"
-      className="relative w-full h-[70vh] bg-cover bg-center rounded-xl overflow-hidden"
+      className="relative w-full h-[70vh] bg-cover bg-center rounded-xl overflow-hidden bg-black"
       style={{
         backgroundImage:
           'url(https://png.pngtree.com/thumb_back/fh260/background/20190223/ourmid/pngtree-black-atmosphere-gym-advertising-background-backgroundgym-advertisingnational-fitnesssports-image_88211.jpg)',
@@ -249,9 +250,8 @@ export default function AddBanner() {
     >
       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black opacity-40"></div>
 
-      <div className="relative z-10 flex justify-center items-center w-full h-full text-white px-6 md:px-12">
+      <div className="relative z-10 flex justify-center items-center bg-transparent w-full h-full text-white px-6 md:px-12">
         <div className="text-center">
-          {/* Heading with animation */}
           <motion.h2
             className="text-4xl md:text-6xl font-semibold mb-4 drop-shadow-lg"
             initial={{ opacity: 0, y: 100 }}
@@ -261,7 +261,6 @@ export default function AddBanner() {
             OLX The Largest Marketplace in Pakistan
           </motion.h2>
 
-          {/* Subheading with animation */}
           <motion.h3
             className="text-xl md:text-2xl mb-8 font-light drop-shadow-lg"
             initial={{ opacity: 0, y: 50 }}
@@ -271,7 +270,6 @@ export default function AddBanner() {
             A Budget Tells Us What We Can't Afford, But It Doesn't Keep Us From Buying It.
           </motion.h3>
 
-          {/* Search Bar with animation */}
           <motion.div
             className="bg-white rounded-full shadow-lg flex items-center p-2 w-full max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 20 }}

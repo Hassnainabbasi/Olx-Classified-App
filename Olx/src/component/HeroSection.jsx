@@ -392,6 +392,8 @@ import AddBanner from '../items/AddBanner'
 
 export default function HeroSection() {
   return (
+    <div className='bg-black'>
         <AddBanner />
+    </div>
   )
 }
