@@ -832,12 +832,18 @@ import { Link } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '../firebase'; 
 import { doc, getDoc } from 'firebase/firestore';
+import { Switch } from '@mui/material';
 
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [checked, setChecked] = useState(false);
+
+  const handleChange = (nextChecked) => {
+    setChecked(nextChecked);
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -881,14 +887,14 @@ export default function Nav() {
   }, []);
 
   return (
-    <nav className={`px-6 py-3 shadow-md relative z-50 bg-black text-white`}>
+    <nav className={`px-6 py-3 shadow-md relative z-50 `}>
       <div className="max-w-screen-xl flex items-center justify-between mx-auto">
         <Link to="/">
           <img
             src="https://web-summit-avenger.imgix.net/production/logos/original/611593121fb2c6e11e1c9d807a9f1bdc38cf199a.jpg?ixlib=rb-3.4.0&auto=format&fit=fill&fill=solid&fill-color=white&w=600&h=600"
             className="h-20"
             alt="Company Logo"
-            style={{ filter: isDarkMode ? 'invert(1)' : 'invert(1)' }}
+            // style={{ filter: isDarkMode ? 'invert(1)' : 'invert(1)' }}
           />
         </Link>
 
@@ -905,7 +911,17 @@ export default function Nav() {
           >
             Post Ads
           </Link>
-
+          {checked ? "ON" : "OFF"}
+                  <Switch
+                    checked={checked}
+                    onChange={handleChange}
+                    onColor="#86d3ff"
+                    offColor="#f4b400"
+                    onHandleColor="#2693e6"
+                    offHandleColor="#ff9f00"
+                    uncheckedIcon={false}
+                    checkedIcon={false}
+                  />
           {isAuthenticated ? (
             <button
               onClick={handleLogout}
@@ -920,6 +936,7 @@ export default function Nav() {
             >
               Login
             </Link>
+            
           )}
         </div>
 
