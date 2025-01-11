@@ -547,11 +547,12 @@ export default function CenterSection() {
         {batayeehuyeeCategory.slice(0, categoriesToShow).map((category, index) => (
           <Link to={`/categories/${category.name}`} key={index}>
             <div
-              className={`p-6 rounded-lg shadow-md text-center border ${
-                darkmode
-                  ? "bg-gray-800 text-white border-gray-700 shadow-gray-900"
-                  : "bg-gray-100 text-black border-gray-300 shadow-gray-200"
-              }`}
+              className={`p-6 rounded-lg shadow-md text-center border `}
+              //   ${
+              //   darkmode
+              //     ? "bg-gray-800 text-white border-gray-700 shadow-gray-900"
+              //     : "bg-gray-100 text-black border-gray-300 shadow-gray-200"
+              // }
             >
               <img
                 src={category.image}

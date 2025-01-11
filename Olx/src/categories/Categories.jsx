@@ -12,7 +12,7 @@ export default function Categories() {
       const adsCollection = collection(db, "userAds");
       const q = query(adsCollection, where("category", "==", categoryName));
       const querySnapshot = await getDocs(q);
-      const adList = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const adList = querySnapshot.docs.map(async(doc) => ({ id: doc.id, ...doc.data() }));
       setAds(adList);
     };
 

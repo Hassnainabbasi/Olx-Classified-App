@@ -832,18 +832,13 @@ import { Link } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '../firebase'; 
 import { doc, getDoc } from 'firebase/firestore';
-import { Switch } from '@mui/material';
-
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [checked, setChecked] = useState(false);
 
-  const handleChange = (nextChecked) => {
-    setChecked(nextChecked);
-  };
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -901,7 +896,7 @@ export default function Nav() {
         <div className="hidden md:flex space-x-6">
           <Link
             to="/myaccount"
-            className={`py-3 px-4 text-md font-bold rounded-full border ${isDarkMode ? 'text-white bg-black' : 'text-black bg-white'}`}
+            className={`py-3 px-4 text-md font-bold rounded-full border text-black bg-white`}
           >
             My Account
           </Link>
@@ -911,17 +906,6 @@ export default function Nav() {
           >
             Post Ads
           </Link>
-          {checked ? "ON" : "OFF"}
-                  <Switch
-                    checked={checked}
-                    onChange={handleChange}
-                    onColor="#86d3ff"
-                    offColor="#f4b400"
-                    onHandleColor="#2693e6"
-                    offHandleColor="#ff9f00"
-                    uncheckedIcon={false}
-                    checkedIcon={false}
-                  />
           {isAuthenticated ? (
             <button
               onClick={handleLogout}
