@@ -57,16 +57,15 @@ export default function CenterSection() {
     setShowAll(true);
   };
 
-  const isMobile = windowWidth < 768;
-  const categoriesToShow = showAll || !isMobile ? batayeehuyeeCategory.length : 1;
+  // const isMobile = windowWidth < 768;
+  // const categoriesToShow = showAll || !isMobile ? batayeehuyeeCategory.length : 1;
 
   return (
     <div
-      className={`container mx-auto `}
+      className={`container mx-auto bg-gray-200 rounded-md `}
     >
       <h1
-        className={`text-3xl font-semibold font-serif text-center mb-8 ${
-          darkmode ? "text-teal-400" : "text-teal-600"
+        className={`text-3xl font-semibold font-serif text-center mb-5
         }`}
       >
         Categories
@@ -75,7 +74,7 @@ export default function CenterSection() {
       <div
         className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 `}
       >
-        {batayeehuyeeCategory.slice(0, categoriesToShow).map((category, index) => (
+        {batayeehuyeeCategory.map((category, index) => (
           <Link to={`/categories/${category.name}`} key={index}>
             <div
               className={` text-center `}
@@ -83,9 +82,9 @@ export default function CenterSection() {
               <img
                 src={category.image}
                 alt={`${category.name} icon`}
-                className="mx-auto mb-4"
+                className="mx-auto mb-4 border rounded-lg"
                 height={100}
-                width={100}
+                width={170}
               />
               <p className="text-lg font-medium">{category.name}</p>
             </div>
@@ -93,7 +92,7 @@ export default function CenterSection() {
         ))}
       </div>
 
-      {isMobile && !showAll && (
+      {/* {isMobile && !showAll && (
         <div className="flex justify-center mt-4">
           <button
             onClick={handleSeeMore}
@@ -102,7 +101,7 @@ export default function CenterSection() {
             See More Categories
           </button>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

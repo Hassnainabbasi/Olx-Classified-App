@@ -68,7 +68,7 @@ export default function Signup() {
       <div className="relative z-10 flex items-center justify-center w-full h-full">
         <div className="bg-white p-5 rounded-lg shadow-2xl w-full max-w-md">
           <div className="flex justify-center mb-2">
-            <div className="bg-green-500 rounded-full p-2">
+            <div className="">
               <i className="fas fa-user text-white text-4xl"></i>
             </div>
           </div>
